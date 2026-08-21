@@ -2,21 +2,27 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malzeme Alanı Bölümleri - Ashby Seçim Diyagramı (5 Kategori)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Malzeme Alanı Bölümleri - Ashby Seçim Diyagramı</title>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <style>
+        * { box-sizing: border-box; }
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 15px; 
+            margin: 0; 
+            padding: 10px;
             background-color: #f4f6f9; 
         }
         #chart { 
             width: 100%; 
-            height: 93vh; 
+            height: 88vh; 
             background: white; 
             border-radius: 10px; 
             box-shadow: 0 4px 16px rgba(0,0,0,0.08); 
+        }
+        @media (max-width: 768px) {
+            body { padding: 5px; }
+            #chart { height: 92vh; }
         }
     </style>
 </head>
@@ -25,6 +31,8 @@
 <div id="chart"></div>
 
 <script>
+const isMobile = window.innerWidth <= 768;
+
 const rawData = [
     { type: 'DEVLET', uni: 'AGÜ (İng)', fullName: 'ABDULLAH GÜL ÜNİVERSİTESİ (KAYSERİ)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Nanoteknoloji Mühendisliği (İngilizce)', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 413.47031, enBuyuk: 434.35837 },
     { type: 'DEVLET', uni: 'ATÜ (İng)', fullName: 'ADANA ALPARSLAN TÜRKEŞ BİLİM VE TEKNOLOJİ ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Mühendisliği (İngilizce)', cat: 'Malzeme Bilimi ve Müh.', kontenjan: 10, yerlesen: 11, enKucuk: 327.57705, enBuyuk: 357.56954 },
@@ -128,14 +136,15 @@ Object.keys(catColors).forEach(cat => {
                     `<b>En Büyük Puan:</b> ${d.enBuyuk.toFixed(2)}`
                 ),
                 hoverinfo: 'text',
-                mode: 'markers+text',
+                // Mobilde yazıları gizleyip sadece noktaları gösteriyoruz (boğulmayı önler)
+                mode: isMobile ? 'markers' : 'markers+text',
                 textposition: 'top center',
-                textfont: { size: 9.5, color: '#2c3e50' },
+                textfont: { size: 9, color: '#2c3e50' },
                 name: `${cat} (${utype})`,
                 marker: {
                     color: catColors[cat],
                     symbol: utype === 'DEVLET' ? 'circle' : 'square',
-                    size: 9,
+                    size: isMobile ? 11 : 9, // Mobilde dokunmayı kolaylaştırmak için biraz büyütüldü
                     line: { color: '#1a1a1a', width: 0.8 }
                 }
             });
@@ -145,20 +154,21 @@ Object.keys(catColors).forEach(cat => {
 
 const layout = {
     title: { 
-        text: 'Türkiye Malzeme Alanı Bölümleri Taban Puan / Kontenjan - Ashby Haritası (2026-YKS)', 
-        font: { size: 17, color: '#2c3e50', family: 'Segoe UI' } 
+        text: isMobile ? 'Malzeme Alanı Bölümleri (2026-YKS)' : 'Türkiye Malzeme Alanı Bölümleri Taban Puan / Kontenjan - Ashby Haritası (2026-YKS)', 
+        font: { size: isMobile ? 13 : 17, color: '#2c3e50', family: 'Segoe UI' } 
     },
+    margin: isMobile ? { l: 45, r: 15, t: 40, b: 120 } : { l: 60, r: 180, t: 50, b: 60 },
     xaxis: { 
-        title: { text: 'Kontenjan (Kişi) [Logaritmik Ölçek]', font: { size: 13 } }, 
+        title: { text: 'Kontenjan (Kişi)', font: { size: isMobile ? 11 : 13 } }, 
         type: 'log', 
         tickmode: 'array',
-        tickvals: [3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90, 100],
-        ticktext: ['3', '4', '5', '6', '8', '10', '12', '15', '20', '25', '30', '35', '40', '45', '50', '60', '70', '75', '80', '90', '100'],
-        gridcolor: '#eaedd5',
+        tickvals: [3, 5, 10, 15, 20, 30, 40, 50, 75, 100],
+        ticktext: ['3', '5', '10', '15', '20', '30', '40', '50', '75', '100'],
+        gridcolor: '#eaeaea',
         zeroline: false
     },
     yaxis: { 
-        title: { text: 'Taban Puan [Logaritmik Ölçek]', font: { size: 13 } }, 
+        title: { text: 'Taban Puan', font: { size: isMobile ? 11 : 13 } }, 
         type: 'log',
         tickmode: 'array',
         tickvals: [180, 200, 250, 300, 350, 400, 450, 500, 550],
@@ -169,7 +179,13 @@ const layout = {
     plot_bgcolor: '#fafafa',
     paper_bgcolor: 'white',
     hovermode: 'closest',
-    legend: {
+    // Mobilde lejandı alt tarafa alıyoruz ki grafiği daraltmasın
+    legend: isMobile ? {
+        orientation: 'h',
+        x: 0,
+        y: -0.25,
+        font: { size: 9 }
+    } : {
         x: 1.01,
         y: 1,
         bordercolor: '#e2e8f0',
@@ -179,6 +195,7 @@ const layout = {
 
 Plotly.newPlot('chart', traces, layout, {
     responsive: true,
+    displayModeBar: !isMobile, // Mobilde üstteki araç çubuğunu gizleyip ekran alanını büyütür
     toImageButtonOptions: {
         format: 'png',
         filename: 'ashby_malzeme_yks_2026',
