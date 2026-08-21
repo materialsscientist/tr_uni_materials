@@ -12,23 +12,25 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden;
             background-color: #f4f6f9;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         #chart { 
-            width: 100vw; 
+            width: 100%; 
             height: 100vh; 
             background: white; 
         }
-        @media (min-width: 769px) {
-            body { padding: 15px; }
-            #chart {
-                width: calc(100vw - 30px);
-                height: calc(100vh - 30px);
-                border-radius: 10px;
-                box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            }
+        /* Mobil tarayıcılarda (Brave, Chrome, Safari) araç çubuğunun kesinlikle görünür kalmasını sağlar */
+        .js-plotly-plot .plotly .modebar {
+            orientation: h !important;
+            top: 2px !important;
+            right: 2px !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: flex !important;
+            background: rgba(255, 255, 255, 0.85) !important;
+            border-radius: 4px;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -119,102 +121,93 @@ const catColors = {
     'Polimer Mühendisliği': '#d62728'
 };
 
-function buildTraces(isMobile) {
-    const traces = [];
-    Object.keys(catColors).forEach(cat => {
-        ['DEVLET', 'VAKIF'].forEach(utype => {
-            const subset = rawData.filter(d => d.cat === cat && d.type === utype);
-            if(subset.length > 0) {
-                traces.push({
-                    x: subset.map(d => d.kontenjan),
-                    y: subset.map(d => d.enKucuk),
-                    text: subset.map(d => d.uni),
-                    hovertext: subset.map(d => 
-                        `<b>${d.fullName}</b> (${d.type})<br>` +
-                        `<b>Fakülte:</b> ${d.fakulte}<br>` +
-                        `<b>Program:</b> ${d.program}<br>` +
-                        `<b>Kategori:</b> ${d.cat}<br>` +
-                        `-----------------------------------------<br>` +
-                        `<b>Kontenjan:</b> ${d.kontenjan} | <b>Yerleşen:</b> ${d.yerlesen}<br>` +
-                        `<b>En Küçük Puan:</b> ${d.enKucuk.toFixed(2)}<br>` +
-                        `<b>En Büyük Puan:</b> ${d.enBuyuk.toFixed(2)}`
-                    ),
-                    hoverinfo: 'text',
-                    mode: isMobile ? 'markers' : 'markers+text',
-                    textposition: 'top center',
-                    textfont: { size: 9.5, color: '#2c3e50' },
-                    name: `${cat} (${utype})`,
-                    marker: {
-                        color: catColors[cat],
-                        symbol: utype === 'DEVLET' ? 'circle' : 'square',
-                        size: isMobile ? 8 : 9,
-                        line: { color: '#1a1a1a', width: 0.8 }
-                    }
-                });
-            }
-        });
-    });
-    return traces;
-}
+const traces = [];
 
-function buildLayout(isMobile) {
-    return {
-        title: { 
-            text: isMobile ? 'Malzeme Alanı Bölümleri (2026-YKS)' : 'Türkiye Malzeme Alanı Bölümleri Taban Puan / Kontenjan - Ashby Haritası (2026-YKS)', 
-            font: { size: isMobile ? 12 : 17, color: '#2c3e50', family: 'Segoe UI' } 
-        },
-        margin: isMobile ? { l: 40, r: 10, t: 35, b: 40 } : { l: 60, r: 180, t: 50, b: 60 },
-        xaxis: { 
-            title: { text: 'Kontenjan (Kişi) [Logaritmik Ölçek]', font: { size: isMobile ? 10 : 13 } }, 
-            type: 'log', 
-            tickmode: 'array',
-            tickvals: [3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90, 100],
-            ticktext: ['3', '4', '5', '6', '8', '10', '12', '15', '20', '25', '30', '35', '40', '45', '50', '60', '70', '75', '80', '90', '100'],
-            gridcolor: '#eaedd5',
-            zeroline: false
-        },
-        yaxis: { 
-            title: { text: 'Taban Puan [Logaritmik Ölçek]', font: { size: isMobile ? 10 : 13 } }, 
-            type: 'log',
-            tickmode: 'array',
-            tickvals: [180, 200, 250, 300, 350, 400, 450, 500, 550],
-            ticktext: ['180', '200', '250', '300', '350', '400', '450', '500', '550'],
-            gridcolor: '#eaeaea',
-            zeroline: false
-        },
-        plot_bgcolor: '#fafafa',
-        paper_bgcolor: 'white',
-        hovermode: 'closest',
-        showlegend: !isMobile,
-        legend: {
-            x: 1.01,
-            y: 1,
-            bordercolor: '#e2e8f0',
-            borderwidth: 1
-        }
-    };
-}
-
-function render() {
-    const isMobile = window.innerWidth <= 768;
-    Plotly.react('chart', buildTraces(isMobile), buildLayout(isMobile), {
-        responsive: true,
-        displayModeBar: true,
-        displaylogo: false,
-        toImageButtonOptions: {
-            format: 'png',
-            filename: 'ashby_malzeme_yks_2026',
-            height: 900,
-            width: 1400,
-            scale: 2
+Object.keys(catColors).forEach(cat => {
+    ['DEVLET', 'VAKIF'].forEach(utype => {
+        const subset = rawData.filter(d => d.cat === cat && d.type === utype);
+        if(subset.length > 0) {
+            traces.push({
+                x: subset.map(d => d.kontenjan),
+                y: subset.map(d => d.enKucuk),
+                text: subset.map(d => d.uni),
+                hovertext: subset.map(d => 
+                    `<b>${d.fullName}</b> (${d.type})<br>` +
+                    `<b>Fakülte:</b> ${d.fakulte}<br>` +
+                    `<b>Program:</b> ${d.program}<br>` +
+                    `<b>Kategori:</b> ${d.cat}<br>` +
+                    `-----------------------------------------<br>` +
+                    `<b>Kontenjan:</b> ${d.kontenjan} | <b>Yerleşen:</b> ${d.yerlesen}<br>` +
+                    `<b>En Küçük Puan:</b> ${d.enKucuk.toFixed(2)}<br>` +
+                    `<b>En Büyük Puan:</b> ${d.enBuyuk.toFixed(2)}`
+                ),
+                hoverinfo: 'text',
+                mode: 'markers+text',
+                textposition: 'top center',
+                textfont: { size: 9.5, color: '#2c3e50' },
+                name: `${cat} (${utype})`,
+                marker: {
+                    color: catColors[cat],
+                    symbol: utype === 'DEVLET' ? 'circle' : 'square',
+                    size: 9,
+                    line: { color: '#1a1a1a', width: 0.8 }
+                }
+            });
         }
     });
-}
+});
 
-render();
+const isMobile = window.innerWidth <= 768;
 
-window.addEventListener('resize', render);
-window.addEventListener('orientationchange', render);
+const layout = {
+    title: { 
+        text: 'Türkiye Malzeme Alanı Bölümleri Taban Puan / Kontenjan - Ashby Haritası (2026-YKS)', 
+        font: { size: isMobile ? 12 : 17, color: '#2c3e50', family: 'Segoe UI' } 
+    },
+    // Mobilde sağ lejandın butonları sıkıştırmaması için sağ marjin ayrıldı
+    margin: isMobile ? { l: 45, r: 20, t: 50, b: 50 } : { l: 60, r: 180, t: 50, b: 60 },
+    xaxis: { 
+        title: { text: 'Kontenjan (Kişi) [Logaritmik Ölçek]', font: { size: 13 } }, 
+        type: 'log', 
+        tickmode: 'array',
+        tickvals: [3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90, 100],
+        ticktext: ['3', '4', '5', '6', '8', '10', '12', '15', '20', '25', '30', '35', '40', '45', '50', '60', '70', '75', '80', '90', '100'],
+        gridcolor: '#eaedd5',
+        zeroline: false
+    },
+    yaxis: { 
+        title: { text: 'Taban Puan [Logaritmik Ölçek]', font: { size: 13 } }, 
+        type: 'log',
+        tickmode: 'array',
+        tickvals: [180, 200, 250, 300, 350, 400, 450, 500, 550],
+        ticktext: ['180', '200', '250', '300', '350', '400', '450', '500', '550'],
+        gridcolor: '#eaeaea',
+        zeroline: false
+    },
+    plot_bgcolor: '#fafafa',
+    paper_bgcolor: 'white',
+    hovermode: 'closest',
+    legend: {
+        x: 1.01,
+        y: 1,
+        bordercolor: '#e2e8f0',
+        borderwidth: 1
+    }
+};
+
+Plotly.newPlot('chart', traces, layout, {
+    responsive: true,
+    displayModeBar: true,       // Araç çubuğunu zorunlu aktif eder
+    displaylogo: false,          // Plotly logosunu kaldırır
+    modeBarButtonsToRemove: [],  // Hiçbir butonu sildirmez (Zoom, Home, Pan kalır)
+    toImageButtonOptions: {
+        format: 'png',
+        filename: 'ashby_malzeme_yks_2026',
+        height: 900,
+        width: 1400,
+        scale: 2
+    }
+});
 </script>
 </body>
 </html>
