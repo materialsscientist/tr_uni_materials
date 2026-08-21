@@ -7,7 +7,7 @@
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { width: 100%; height: 100%; overflow: hidden; background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background-color: #f4f6f9; font-family: sans-serif; }
         #chart { width: 100vw; height: 100vh; background: white; }
     </style>
 </head>
@@ -17,124 +17,44 @@
 
 <script>
 const rawData = [
-    { type: 'DEVLET', uni: 'AGÜ (İng)', fullName: 'ABDULLAH GÜL ÜNİVERSİTESİ (KAYSERİ)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Nanoteknoloji Mühendisliği (İngilizce)', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 413.47031, enBuyuk: 434.35837 },
-    { type: 'DEVLET', uni: 'ATÜ (İng)', fullName: 'ADANA ALPARSLAN TÜRKEŞ BİLİM VE TEKNOLOJİ ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Mühendisliği (İngilizce)', cat: 'Malzeme Bilimi ve Müh.', kontenjan: 10, yerlesen: 11, enKucuk: 327.57705, enBuyuk: 357.56954 },
-    { type: 'DEVLET', uni: 'AKÜ', fullName: 'AFYON KOCATEPE ÜNİVERSİTESİ (AFYONKARAHİSAR)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Mühendisliği', cat: 'Malzeme Bilimi ve Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 307.73470, enBuyuk: 333.00000 },
-    { type: 'DEVLET', uni: 'AKÜ (Teknoloji)', fullName: 'AFYON KOCATEPE ÜNİVERSİTESİ (AFYONKARAHİSAR)', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 336.75424, enBuyuk: 354.01249 },
-    { type: 'DEVLET', uni: 'AKÜ (MTOK)', fullName: 'AFYON KOCATEPE ÜNİVERSİTESİ (AFYONKARAHİSAR)', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (M.T.O.K.)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 4, yerlesen: 4, enKucuk: 307.86477, enBuyuk: 330.62737 },
-    { type: 'DEVLET', uni: 'ALKÜ', fullName: 'ALANYA ALAADDİN KEYKUBAT ÜNİVERSİTESİ (ANTALYA)', fakulte: 'RAFET KAYIŞ MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 338.61249, enBuyuk: 373.20733 },
-    { type: 'DEVLET', uni: 'AYBÜ (İng)', fullName: 'ANKARA YILDIRIM BEYAZIT ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İngilizce)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 60, yerlesen: 60, enKucuk: 418.54514, enBuyuk: 444.29106 },
-    { type: 'DEVLET', uni: 'ATAÜ', fullName: 'ATATÜRK ÜNİVERSİTESİ (ERZURUM)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 328.29250, enBuyuk: 354.24171 },
+    { type: 'DEVLET', uni: 'AGÜ (İng)', fullName: 'ABDULLAH GÜL ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Nanoteknoloji (İng)', cat: 'Nanobilim / Nanoteknoloji', kontenjan: 20, yerlesen: 21, enKucuk: 413.47031, enBuyuk: 434.35837 },
+    { type: 'DEVLET', uni: 'ATÜ (İng)', fullName: 'ADANA ALPARSLAN TÜRKEŞ BİLİM VE TEKNOLOJİ ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Mühendisliği (İng)', cat: 'Malzeme Bilimi ve Müh.', kontenjan: 10, yerlesen: 11, enKucuk: 327.57705, enBuyuk: 357.56954 },
+    { type: 'DEVLET', uni: 'AKÜ', fullName: 'AFYON KOCATEPE ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Mühendisliği', cat: 'Malzeme Bilimi ve Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 307.73470, enBuyuk: 333.00000 },
+    { type: 'DEVLET', uni: 'AKÜ (Teknoloji)', fullName: 'AFYON KOCATEPE ÜNİVERSİTESİ', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 336.75424, enBuyuk: 354.01249 },
+    { type: 'DEVLET', uni: 'AKÜ (MTOK)', fullName: 'AFYON KOCATEPE ÜNİVERSİTESİ', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme (M.T.O.K.)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 4, yerlesen: 4, enKucuk: 307.86477, enBuyuk: 330.62737 },
+    { type: 'DEVLET', uni: 'ALKÜ', fullName: 'ALANYA ALAADDİN KEYKUBAT ÜNİVERSİTESİ', fakulte: 'RAFET KAYIŞ MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 338.61249, enBuyuk: 373.20733 },
+    { type: 'DEVLET', uni: 'AYBÜ (İng)', fullName: 'ANKARA YILDIRIM BEYAZIT ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Metalurji ve Malzeme (İng)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 60, yerlesen: 60, enKucuk: 418.54514, enBuyuk: 444.29106 },
+    { type: 'DEVLET', uni: 'ATAÜ', fullName: 'ATATÜRK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 328.29250, enBuyuk: 354.24171 },
     { type: 'DEVLET', uni: 'BARTIN', fullName: 'BARTIN ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK, MİMARLIK VE TASARIM FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 10, yerlesen: 11, enKucuk: 331.85163, enBuyuk: 350.27218 },
     { type: 'DEVLET', uni: 'BŞEÜ', fullName: 'BİLECİK ŞEYH EDEBALİ ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 335.78348, enBuyuk: 373.92563 },
-    { type: 'DEVLET', uni: 'MAKÜ', fullName: 'BURDUR MEHMET AKİF ERSOY ÜNİVERSİTESİ', fakulte: 'FEN-EDEBİYAT FAKÜLTESİ', program: 'Nanobilim ve Nanoteknoloji', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 40, yerlesen: 41, enKucuk: 269.38837, enBuyuk: 324.78942 },
+    { type: 'DEVLET', uni: 'MAKÜ', fullName: 'BURDUR MEHMET AKİF ERSOY ÜNİVERSİTESİ', fakulte: 'FEN-EDEBİYAT FAKÜLTESİ', program: 'Nanobilim ve Nanoteknoloji', cat: 'Nanobilim / Nanoteknoloji', kontenjan: 40, yerlesen: 41, enKucuk: 269.38837, enBuyuk: 324.78942 },
     { type: 'DEVLET', uni: 'BTÜ', fullName: 'BURSA TEKNİK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 65, yerlesen: 66, enKucuk: 401.19087, enBuyuk: 435.73277 },
     { type: 'DEVLET', uni: 'BTÜ (Polimer)', fullName: 'BURSA TEKNİK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Polimer Malzeme Mühendisliği', cat: 'Polimer Mühendisliği', kontenjan: 35, yerlesen: 35, enKucuk: 357.40829, enBuyuk: 398.32227 },
-    { type: 'DEVLET', uni: 'DEÜ', fullName: 'DOKUZ EYLÜL ÜNİVERSİTESİ (İZMİR)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 70, yerlesen: 70, enKucuk: 414.02138, enBuyuk: 450.13732 },
-    { type: 'DEVLET', uni: 'ERÜ', fullName: 'ERCİYES ÜNİVERSİTESİ (KAYSERİ)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 355.90538, enBuyuk: 386.33399 },
+    { type: 'DEVLET', uni: 'DEÜ', fullName: 'DOKUZ EYLÜL ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 70, yerlesen: 70, enKucuk: 414.02138, enBuyuk: 450.13732 },
+    { type: 'DEVLET', uni: 'ERÜ', fullName: 'ERCİYES ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 355.90538, enBuyuk: 386.33399 },
     { type: 'DEVLET', uni: 'ESOGÜ', fullName: 'ESKİŞEHİR OSMANGAZİ ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK-MİMARLIK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 65, yerlesen: 67, enKucuk: 407.98090, enBuyuk: 430.19777 },
-    { type: 'DEVLET', uni: 'ESTÜ (İng)', fullName: 'ESKİŞEHİR TEKNİK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Mühendisliği (İngilizce)', cat: 'Malzeme Bilimi ve Müh.', kontenjan: 75, yerlesen: 76, enKucuk: 421.29145, enBuyuk: 448.98873 },
-    { type: 'DEVLET', uni: 'FÜ (Müh)', fullName: 'FIRAT ÜNİVERSİTESİ (ELAZIĞ)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 308.40493, enBuyuk: 323.70037 },
-    { type: 'DEVLET', uni: 'FÜ (Teknoloji)', fullName: 'FIRAT ÜNİVERSİTESİ (ELAZIĞ)', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 5, enKucuk: 306.32280, enBuyuk: 318.00105 },
-    { type: 'DEVLET', uni: 'FÜ (MTOK)', fullName: 'FIRAT ÜNİVERSİTESİ (ELAZIĞ)', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (M.T.O.K.)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 12, yerlesen: 1, enKucuk: 306.16711, enBuyuk: 306.16711 },
-    { type: 'DEVLET', uni: 'GAZİ', fullName: 'GAZİ ÜNİVERSİTESİ (ANKARA)', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 75, yerlesen: 75, enKucuk: 429.88944, enBuyuk: 462.55927 },
-    { type: 'DEVLET', uni: 'GAZİ (MTOK)', fullName: 'GAZİ ÜNİVERSİTESİ (ANKARA)', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (M.T.O.K.)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 22, yerlesen: 22, enKucuk: 313.13420, enBuyuk: 410.50343 },
-    { type: 'DEVLET', uni: 'GAÜN (İng)', fullName: 'GAZİANTEP ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İngilizce)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 10, yerlesen: 11, enKucuk: 338.07471, enBuyuk: 366.90183 },
+    { type: 'DEVLET', uni: 'ESTÜ (İng)', fullName: 'ESKİŞEHİR TEKNİK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Mühendisliği (İng)', cat: 'Malzeme Bilimi ve Müh.', kontenjan: 75, yerlesen: 76, enKucuk: 421.29145, enBuyuk: 448.98873 },
+    { type: 'DEVLET', uni: 'FÜ', fullName: 'FIRAT ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 308.40493, enBuyuk: 323.70037 },
+    { type: 'DEVLET', uni: 'GAZİ', fullName: 'GAZİ ÜNİVERSİTESİ', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 75, yerlesen: 75, enKucuk: 429.88944, enBuyuk: 462.55927 },
     { type: 'DEVLET', uni: 'GTÜ', fullName: 'GEBZE TEKNİK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Mühendisliği', cat: 'Malzeme Bilimi ve Müh.', kontenjan: 40, yerlesen: 40, enKucuk: 441.77781, enBuyuk: 467.11047 },
-    { type: 'DEVLET', uni: 'İSTE', fullName: 'İSKENDERUN TEKNİK ÜNİVERSİTESİ (HATAY)', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 15, yerlesen: 16, enKucuk: 315.06985, enBuyuk: 331.37170 },
-    { type: 'VAKIF', uni: 'GEDİK (%50)', fullName: 'İSTANBUL GEDİK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Nanoteknoloji Mühendisliği (%50 İndirimli)', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 4, yerlesen: 2, enKucuk: 308.63032, enBuyuk: 317.76172 },
-    { type: 'VAKIF', uni: 'GEDİK (Burslu)', fullName: 'İSTANBUL GEDİK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Nanoteknoloji Mühendisliği (Burslu)', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 21, yerlesen: 21, enKucuk: 341.62909, enBuyuk: 381.04105 },
     { type: 'DEVLET', uni: 'İTÜ', fullName: 'İSTANBUL TEKNİK ÜNİVERSİTESİ', fakulte: 'KİMYA-METALURJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 45, yerlesen: 45, enKucuk: 508.08115, enBuyuk: 526.05319 },
-    { type: 'DEVLET', uni: 'İTÜ (İng)', fullName: 'İSTANBUL TEKNİK ÜNİVERSİTESİ', fakulte: 'KİMYA-METALURJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İngilizce)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 45, yerlesen: 45, enKucuk: 509.47051, enBuyuk: 522.69312 },
-    { type: 'DEVLET', uni: 'İÜC', fullName: 'İSTANBUL ÜNİVERSİTESİ-CERRAHPAŞA', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 75, yerlesen: 75, enKucuk: 432.79353, enBuyuk: 458.84372 },
-    { type: 'DEVLET', uni: 'İKÇÜ (İng)', fullName: 'İZMİR KATİP ÇELEBİ ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK VE MİMARLIK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İngilizce)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 75, yerlesen: 77, enKucuk: 388.06828, enBuyuk: 412.10862 },
-    { type: 'DEVLET', uni: 'İYTE (İng)', fullName: 'İZMİR YÜKSEK TEKNOLOJİ ENSTİTÜSÜ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Mühendisliği (İngilizce)', cat: 'Malzeme Bilimi ve Müh.', kontenjan: 45, yerlesen: 45, enKucuk: 450.42651, enBuyuk: 473.70354 },
-    { type: 'DEVLET', uni: 'KBÜ (İng)', fullName: 'KARABÜK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İngilizce)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 334.34368, enBuyuk: 348.44465 },
-    { type: 'DEVLET', uni: 'KTÜ', fullName: 'KARADENİZ TEKNİK ÜNİVERSİTESİ (TRABZON)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 50, yerlesen: 52, enKucuk: 360.27690, enBuyuk: 405.62822 },
-    { type: 'DEVLET', uni: 'KMÜ', fullName: 'KARAMANOĞLU MEHMETBEY ÜNİVERSİTESİ (KARAMAN)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 10, yerlesen: 11, enKucuk: 310.84605, enBuyuk: 323.68827 },
-    { type: 'DEVLET', uni: 'KKÜ', fullName: 'KIRIKKALE ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 30, yerlesen: 31, enKucuk: 334.26751, enBuyuk: 374.13173 },
-    { type: 'DEVLET', uni: 'KOÜ', fullName: 'KOCAELİ ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 75, yerlesen: 75, enKucuk: 399.69163, enBuyuk: 436.21735 },
-    { type: 'DEVLET', uni: 'KTUN', fullName: 'KONYA TEKNİK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 25, yerlesen: 26, enKucuk: 345.39806, enBuyuk: 395.81686 },
-    { type: 'DEVLET', uni: 'DPÜ', fullName: 'KÜTAHYA DUMLUPINAR ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 30, yerlesen: 31, enKucuk: 343.18803, enBuyuk: 374.05347 },
-    { type: 'DEVLET', uni: 'MCBÜ', fullName: 'MANİSA CELÂL BAYAR ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 45, yerlesen: 47, enKucuk: 366.70542, enBuyuk: 400.54648 },
-    { type: 'DEVLET', uni: 'MARMARA (İng-Müh Fak.)', fullName: 'MARMARA ÜNİVERSİTESİ (İSTANBUL)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İngilizce)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 70, yerlesen: 70, enKucuk: 449.49118, enBuyuk: 481.05977 },
-    { type: 'DEVLET', uni: 'MARMARA (Teknoloji)', fullName: 'MARMARA ÜNİVERSİTESİ (İSTANBUL)', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 58, yerlesen: 58, enKucuk: 441.33274, enBuyuk: 453.90221 },
-    { type: 'DEVLET', uni: 'MARMARA (MTOK)', fullName: 'MARMARA ÜNİVERSİTESİ (İSTANBUL)', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (M.T.O.K.)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 18, yerlesen: 18, enKucuk: 314.19925, enBuyuk: 380.61385 },
-    { type: 'DEVLET', uni: 'MEÜ', fullName: 'MERSİN ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 344.45320, enBuyuk: 374.96617 },
-    { type: 'VAKIF', uni: 'MUDANYA (%50)', fullName: 'MUDANYA ÜNİVERSİTESİ (BURSA)', fakulte: 'MÜHENDİSLİK, MİMARLIK VE TASARIM FAKÜLTESİ', program: 'Malzeme Bilimi ve Teknolojileri (%50 İndirimli)', cat: 'Malzeme Bilimi ve Teknolojileri', kontenjan: 34, yerlesen: 16, enKucuk: 193.20406, enBuyuk: 295.15044 },
-    { type: 'VAKIF', uni: 'MUDANYA (Burslu)', fullName: 'MUDANYA ÜNİVERSİTESİ (BURSA)', fakulte: 'MÜHENDİSLİK, MİMARLIK VE TASARIM FAKÜLTESİ', program: 'Malzeme Bilimi ve Teknolojileri (Burslu)', cat: 'Malzeme Bilimi ve Teknolojileri', kontenjan: 5, yerlesen: 5, enKucuk: 305.76605, enBuyuk: 323.42375 },
-    { type: 'DEVLET', uni: 'MSKÜ (İng)', fullName: 'MUĞLA SITKI KOÇMAN ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İngilizce)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 40, yerlesen: 41, enKucuk: 376.37677, enBuyuk: 407.88984 },
-    { type: 'DEVLET', uni: 'NEÜ (İng)', fullName: 'NECMETTİN ERBAKAN ÜNİVERSİTESİ (KONYA)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İngilizce)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 342.98682, enBuyuk: 390.49803 },
-    { type: 'DEVLET', uni: 'OMÜ', fullName: 'ONDOKUZ MAYIS ÜNİVERSİTESİ (SAMSUN)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 30, yerlesen: 31, enKucuk: 368.78966, enBuyuk: 396.33295 },
-    { type: 'DEVLET', uni: 'ODTÜ (İng)', fullName: 'ORTA DOĞU TEKNİK ÜNİVERSİTESİ (ANKARA)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İngilizce)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 60, yerlesen: 60, enKucuk: 513.62166, enBuyuk: 529.39391 },
-    { type: 'VAKIF', uni: 'OSTİM TEKNİK (İng-%50 Burs)', fullName: 'OSTİM TEKNİK ÜNİVERSİTESİ (ANKARA)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Nanoteknoloji Mühendisliği (İngilizce) (%50 İndirimli)', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 10, yerlesen: 1, enKucuk: 309.04650, enBuyuk: 309.04650 },
-    { type: 'VAKIF', uni: 'OSTİM TEKNİK (İng-Burslu)', fullName: 'OSTİM TEKNİK ÜNİVERSİTESİ (ANKARA)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Nanoteknoloji Mühendisliği (İngilizce) (Burslu)', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 10, yerlesen: 10, enKucuk: 385.39082, enBuyuk: 434.48256 },
-    { type: 'DEVLET', uni: 'PAÜ', fullName: 'PAMUKKALE ÜNİVERSİTESİ (DENİZLİ)', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 25, yerlesen: 26, enKucuk: 368.36848, enBuyuk: 404.69281 },
-    { type: 'DEVLET', uni: 'SUBÜ', fullName: 'SAKARYA UYGULAMALI BİLİMLER ÜNİVERSİTESİ', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 50, yerlesen: 52, enKucuk: 379.97098, enBuyuk: 398.20406 },
-    { type: 'DEVLET', uni: 'SAÜ', fullName: 'SAKARYA ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 95, yerlesen: 98, enKucuk: 390.15101, enBuyuk: 421.12687 },
-    { type: 'DEVLET', uni: 'SAÜ (İng)', fullName: 'SAKARYA ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İngilizce)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 35, yerlesen: 35, enKucuk: 421.89220, enBuyuk: 443.49909 },
-    { type: 'DEVLET', uni: 'SÜ', fullName: 'SELÇUK ÜNİVERSİTESİ (KONYA)', fakulte: 'TEKNOLOJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 30, yerlesen: 31, enKucuk: 348.31936, enBuyuk: 406.75961 },
-    { type: 'DEVLET', uni: 'SBTÜ (İng)', fullName: 'SİVAS BİLİM VE TEKNOLOJİ ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İngilizce)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 30, yerlesen: 31, enKucuk: 328.05239, enBuyuk: 366.35761 },
-    { type: 'DEVLET', uni: 'SCÜ (İng)', fullName: 'SİVAS CUMHURİYET ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Nanoteknoloji Mühendisliği (İngilizce)', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 20, yerlesen: 21, enKucuk: 305.15795, enBuyuk: 388.34686 },
-    { type: 'VAKIF', uni: 'TOBB ETÜ (%50)', fullName: 'TOBB EKONOMİ VE TEKNOLOJİ ÜNİVERSİTESİ (ANKARA)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Nanoteknoloji Mühendisliği (%50 İndirimli)', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 37, yerlesen: 37, enKucuk: 422.67649, enBuyuk: 458.28296 },
-    { type: 'VAKIF', uni: 'TOBB ETÜ (Burslu)', fullName: 'TOBB EKONOMİ VE TEKNOLOJİ ÜNİVERSİTESİ (ANKARA)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Nanoteknoloji Mühendisliği (Burslu)', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 6, yerlesen: 6, enKucuk: 507.19252, enBuyuk: 524.41726 },
-    { type: 'VAKIF', uni: 'TOBB ETÜ (Ücretli)', fullName: 'TOBB EKONOMİ VE TEKNOLOJİ ÜNİVERSİTESİ (ANKARA)', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Nanoteknoloji Mühendisliği (Ücretli)', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 5, yerlesen: 5, enKucuk: 390.52287, enBuyuk: 422.61426 },
-    { type: 'DEVLET', uni: 'TAÜ (40 Kont)', fullName: 'TÜRK-ALMAN ÜNİVERSİTESİ (İSTANBUL)', fakulte: 'FEN FAKÜLTESİ', program: 'Malzeme Bilimi ve Teknolojileri (Almanca)', cat: 'Malzeme Bilimi ve Teknolojileri', kontenjan: 40, yerlesen: 40, enKucuk: 454.68931, enBuyuk: 487.78252 },
-    { type: 'DEVLET', uni: 'TAÜ (8 Kont)', fullName: 'TÜRK-ALMAN ÜNİVERSİTESİ (İSTANBUL)', fakulte: 'FEN FAKÜLTESİ', program: 'Malzeme Bilimi ve Teknolojileri (Almanca)', cat: 'Malzeme Bilimi ve Teknolojileri', kontenjan: 8, yerlesen: 8, enKucuk: 425.55449, enBuyuk: 445.26256 },
-    { type: 'DEVLET', uni: 'TJTÜ (İng)', fullName: 'TÜRK-JAPON BİLİM VE TEKNOLOJİ ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Mühendisliği (İngilizce)', cat: 'Malzeme Bilimi ve Müh.', kontenjan: 20, yerlesen: 20, enKucuk: 478.89128, enBuyuk: 489.29936 },
-    { type: 'DEVLET', uni: 'UŞAK', fullName: 'UŞAK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Nanoteknoloji Mühendisliği', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 25, yerlesen: 18, enKucuk: 304.03393, enBuyuk: 398.58029 },
-    { type: 'DEVLET', uni: 'YALOVA (Polimer)', fullName: 'YALOVA ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Polimer Malzeme Mühendisliği', cat: 'Polimer Mühendisliği', kontenjan: 20, yerlesen: 20, enKucuk: 347.76923, enBuyuk: 371.44433 },
-    { type: 'VAKIF', uni: 'YEDİTEPE (İng-%50 Burs)', fullName: 'YEDİTEPE ÜNİVERSİTESİ (İSTANBUL)', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Malzeme Bilimi ve Nanoteknoloji Mühendisliği (İngilizce) (%50 İndirimli)', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 12, yerlesen: 6, enKucuk: 315.54080, enBuyuk: 353.45922 },
-    { type: 'VAKIF', uni: 'YEDİTEPE (İng-Burslu)', fullName: 'YEDİTEPE ÜNİVERSİTESİ (İSTANBUL)', fakulte: 'MÜHENDİSLİK VE DOĞA BİLİMLERİ FAKÜLTESİ', program: 'Malzeme Bilimi ve Nanoteknoloji Mühendisliği (İngilizce) (Burslu)', cat: 'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.', kontenjan: 3, yerlesen: 3, enKucuk: 469.63556, enBuyuk: 484.41854 },
-    { type: 'DEVLET', uni: 'YTÜ', fullName: 'YILDIZ TEKNİK ÜNİVERSİTESİ (İSTANBUL)', fakulte: 'KİMYA-METALURJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 60, yerlesen: 60, enKucuk: 482.30898, enBuyuk: 498.70592 },
-    { type: 'DEVLET', uni: 'YTÜ (İng)', fullName: 'YILDIZ TEKNİK ÜNİVERSİTESİ (İSTANBUL)', fakulte: 'KİMYA-METALURJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İngilizce)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 55, yerlesen: 55, enKucuk: 484.77478, enBuyuk: 506.08726 }
+    { type: 'DEVLET', uni: 'İYTE (İng)', fullName: 'İZMİR YÜKSEK TEKNOLOJİ ENSTİTÜSÜ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Malzeme Bilimi ve Mühendisliği (İng)', cat: 'Malzeme Bilimi ve Müh.', kontenjan: 45, yerlesen: 45, enKucuk: 450.42651, enBuyuk: 473.70354 },
+    { type: 'DEVLET', uni: 'KTÜ', fullName: 'KARADENİZ TEKNİK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 50, yerlesen: 52, enKucuk: 360.27690, enBuyuk: 405.62822 },
+    { type: 'DEVLET', uni: 'MARMARA', fullName: 'MARMARA ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 70, yerlesen: 70, enKucuk: 449.49118, enBuyuk: 481.05977 },
+    { type: 'DEVLET', uni: 'ODTÜ (İng)', fullName: 'ORTA DOĞU TEKNİK ÜNİVERSİTESİ', fakulte: 'MÜHENDİSLİK FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği (İng)', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 60, yerlesen: 60, enKucuk: 513.62166, enBuyuk: 529.39391 },
+    { type: 'DEVLET', uni: 'YTÜ', fullName: 'YILDIZ TEKNİK ÜNİVERSİTESİ', fakulte: 'KİMYA-METALURJİ FAKÜLTESİ', program: 'Metalurji ve Malzeme Mühendisliği', cat: 'Metalurji ve Malzeme Müh.', kontenjan: 60, yerlesen: 60, enKucuk: 482.30898, enBuyuk: 498.70592 }
 ];
 
 const catColors = {
     'Metalurji ve Malzeme Müh.': '#1f77b4',
     'Malzeme Bilimi ve Müh.': '#2ca02c',
-    'Nanobilim / Nanoteknoloji / Nanoteknoloji Müh.': '#ff7f0e',
+    'Nanobilim / Nanoteknoloji': '#ff7f0e',
     'Malzeme Bilimi ve Teknolojileri': '#9467bd',
     'Polimer Mühendisliği': '#d62728'
 };
 
-function getLayout() {
-    const isMobileNow = window.innerWidth <= 768;
-    return {
-        title: { 
-            text: isMobileNow ? 'Malzeme Bölümleri (2026-YKS)' : 'Türkiye Malzeme Alanı Bölümleri Taban Puan / Kontenjan - Ashby Haritası (2026-YKS)', 
-            font: { size: isMobileNow ? 12 : 16, color: '#2c3e50', family: 'Segoe UI' } 
-        },
-        margin: isMobileNow ? { l: 35, r: 10, t: 30, b: 40 } : { l: 60, r: 180, t: 50, b: 60 },
-        xaxis: { 
-            title: { text: isMobileNow ? 'Kontenjan' : 'Kontenjan (Kişi)', font: { size: isMobileNow ? 10 : 12 } }, 
-            type: 'log', 
-            tickmode: 'array',
-            tickvals: [3, 5, 10, 20, 40, 75, 100],
-            ticktext: ['3', '5', '10', '20', '40', '75', '100'],
-            gridcolor: '#eaeaea',
-            zeroline: false
-        },
-        yaxis: { 
-            title: { text: isMobileNow ? 'Puan' : 'Taban Puan', font: { size: isMobileNow ? 10 : 12 } }, 
-            type: 'log',
-            tickmode: 'array',
-            tickvals: [180, 250, 350, 450, 550],
-            ticktext: ['180', '250', '350', '450', '550'],
-            gridcolor: '#eaeaea',
-            zeroline: false
-        },
-        plot_bgcolor: '#fafafa',
-        paper_bgcolor: 'white',
-        hovermode: 'closest',
-        showlegend: !isMobileNow
-    };
-}
-
-function getTraces() {
-    const isMobileNow = window.innerWidth <= 768;
+function render() {
     const traces = [];
-
     Object.keys(catColors).forEach(cat => {
         ['DEVLET', 'VAKIF'].forEach(utype => {
             const subset = rawData.filter(d => d.cat === cat && d.type === utype);
@@ -142,45 +62,26 @@ function getTraces() {
                 traces.push({
                     x: subset.map(d => d.kontenjan),
                     y: subset.map(d => d.enKucuk),
-                    text: subset.map(d => d.uni),
-                    hovertext: subset.map(d => 
-                        `<b>${d.fullName}</b> (${d.type})<br>` +
-                        `<b>Fakülte:</b> ${d.fakulte}<br>` +
-                        `<b>Program:</b> ${d.program}<br>` +
-                        `<b>Kategori:</b> ${d.cat}<br>` +
-                        `-----------------------------------------<br>` +
-                        `<b>Kontenjan:</b> ${d.kontenjan} | <b>Yerleşen:</b> ${d.yerlesen}<br>` +
-                        `<b>En Küçük Puan:</b> ${d.enKucuk.toFixed(2)}<br>` +
-                        `<b>En Büyük Puan:</b> ${d.enBuyuk.toFixed(2)}`
-                    ),
-                    hoverinfo: 'text',
-                    mode: isMobileNow ? 'markers' : 'markers+text',
-                    textposition: 'top center',
-                    textfont: { size: 9, color: '#2c3e50' },
+                    mode: 'markers',
                     name: `${cat} (${utype})`,
-                    marker: {
-                        color: catColors[cat],
-                        symbol: utype === 'DEVLET' ? 'circle' : 'square',
-                        size: isMobileNow ? 8 : 9,
-                        line: { color: '#1a1a1a', width: 0.6 }
-                    }
+                    marker: { size: 10, color: catColors[cat] }
                 });
             }
         });
     });
-    return traces;
+
+    const layout = {
+        title: 'Ashby Map (YKS 2026)',
+        xaxis: { type: 'log', title: 'Kontenjan (Log)', autorange: true },
+        yaxis: { type: 'log', title: 'Puan (Log)', autorange: true },
+        hovermode: 'closest',
+        margin: { l: 50, r: 20, t: 50, b: 50 }
+    };
+
+    Plotly.newPlot('chart', traces, layout, { responsive: true });
 }
 
-function renderChart() {
-    Plotly.react('chart', getTraces(), getLayout(), {
-        responsive: true,
-        displayModeBar: false
-    });
-}
-
-renderChart();
-window.addEventListener('resize', renderChart);
-window.addEventListener('orientationchange', renderChart);
+render();
 </script>
 </body>
 </html>
