@@ -141,7 +141,7 @@ function renderChart() {
             text: isMobile ? 'Malzeme Bölümleri (2026-YKS)' : 'Türkiye Malzeme Alanı Bölümleri Taban Puan / Kontenjan - Ashby Haritası (2026-YKS)', 
             font: { size: isMobile ? 13 : 16, color: '#2c3e50', family: 'Segoe UI' } 
         },
-        margin: isMobile ? { l: 50, r: 15, t: 35, b: 50 } : { l: 70, r: 180, t: 50, b: 65 },
+        margin: isMobile ? { l: 50, r: 15, t: 45, b: 50 } : { l: 70, r: 180, t: 50, b: 65 },
         xaxis: { 
             title: { text: 'Kontenjan (Kişi) [Logaritmik Ölçek]', font: { size: isMobile ? 10 : 12 } }, 
             type: 'log', 
@@ -168,7 +168,8 @@ function renderChart() {
 
     Plotly.react('chart', traces, layout, {
         responsive: true,
-        displayModeBar: false
+        displayModeBar: true, // Sol/sağ üstteki araç çubuğu (Zoom, Pan, Reset vb.) görünür yapıldı
+        displaylogo: false
     });
 }
 
